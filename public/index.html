@@ -1,0 +1,37 @@
+<!DOCTYPE html/>
+<html lang='en'>
+    <head></head>
+    
+    <body>
+        <h1>
+            Log
+        </h1>
+        <div id="log" style={display:'flex'}></div>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            let prevdata;
+            const logDiv=document.getElementById('log');
+            const socket=io();
+            socket.on('logUpdate',(data)=>{
+                console.log(data);
+                if(prevdata){
+                    if(prevdata.length>=10){
+                    prevdata.shift();
+                    prevdata.push(data);
+                    logDiv.textContent= prevdata+'\n';
+                    }
+                    else{
+                        prevdata.push(data);
+                        logDiv.textContent = prevdata+'\n';
+                    }
+                }
+                else{
+                logDiv.textContent += data+'\n';
+                prevdata=data;
+                }
+
+            })
+
+        </script>
+    </body>
+</html>
